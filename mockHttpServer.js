@@ -13,12 +13,6 @@ var applicationRoot = __dirname.replace(/\\/g,"/"),
 var express = require("express");
 var app = express();
 
-/* Configure a simple logger and an error handler. */
-// app.configure(function() {
-  // app.use(express.logger());
-  // app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-// });
-
 /* Read the directory tree according to the pattern specified above. */
 var files = glob.sync(mockRootPattern);
 
@@ -28,6 +22,7 @@ if(files && files.length > 0) {
 
     var mapping = apiRoot + fileName.replace(mockRoot, '').replace(mockFilePattern,'');
 
+    /* set CORS headers so this can be used with local AJAX */
     app.all('*', function(req, res, next) {
       res.header("Access-Control-Allow-Origin", "*");
       res.header("Access-Control-Allow-Headers", "X-Requested-With");
